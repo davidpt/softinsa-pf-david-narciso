@@ -1,69 +1,58 @@
 package pt.softinsa.projetofinal.davidnarciso;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
-import pt.softinsa.projetofinal.davidnarciso.model.Pessoa;
-import pt.softinsa.projetofinal.davidnarciso.repository.PessoaRepository;
 
 @SpringBootApplication
-@EnableMongoRepositories
-public class DavidNarcisoApplication implements CommandLineRunner {
-
-	@Autowired
-	PessoaRepository pessoaRepo;
+public class DavidNarcisoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DavidNarcisoApplication.class, args);
 	}
-
+	/*
 	@Override
 	public void run(String... args) throws Exception {
 
-		System.out.println("-------------CREATE GROCERY ITEMS-------------------------------\n");
-		
-		createGroceryItems();
-		
-		System.out.println("\n----------------SHOW ALL PEOPLE ITEMS---------------------------\n");
+//		System.out.println("-------------CREATE IMOVEL ITEMS-------------------------------\n");
+//
+//		createImovelItems();
+//
+//		System.out.println("\n----------------SHOW ALL IMOVEL ITEMS---------------------------\n");
+//
+//		showAllImovelItems();
 
-		showAllPeopleItems();
+		Tipo _t = Tipo.MORADIA;
+		
+		List<Imovel> _i = imovelRepo.findImovelByTipo(_t.name());
+		System.out.println("O conteudo da pesquisa do tipo de imoveis " + _t.name() + " é: " + _i);
 
 	}
 
-	public void showAllPeopleItems() {
-
-		List<Pessoa> pessoas = new ArrayList<Pessoa>();
-		pessoas = pessoaRepo.findAll();
-
-		Pessoa p = new Pessoa();
-		p = pessoaRepo.findItemByNome("David");
+	void getImovelByID() {
 		
-		System.out.println("O número de documentos na collection é: " + pessoaRepo.count()
-				+ " e o conteudo de pessoas é: " + pessoas + " e o conteudo do document de david é: " + p);
-
-		// pessoaItemRepo.findAll().forEach(item ->
-		// System.out.println(getItemDetails(item)));
-	}
-
-	public String getItemDetails(Pessoa item) {
-
-		System.out.println("Nome: " + item.getNome() + ", \nApelido: " + item.getApelido());
-
-		return "";
+		String _id = "630a4aacc44e75782efa80c7";
+		System.out.println("Getting imovel by id: " + _id);
+		Imovel _i = imovelRepo.findImovelById(_id);
+		System.out.println("O conteudo do documento imovel é: " + _i);
 	}
 	
-	void createGroceryItems() {
-        System.out.println("Data creation started...");
-        pessoaRepo.save(new Pessoa("4","Whole", "Wheat"));
-        pessoaRepo.save(new Pessoa("5","Kodo", "Millet"));
-        
-        System.out.println("Data creation complete...");
-    }
+	void createImovelItems() {
+		
+		System.out.println("Data creation started...");
+		imovelRepo.save(Imovel.builder().tipo(Tipo.MORADIA).estado(Estado.USADO).pais("Portugal").distrito("Santarém")
+				.descricao("Bom apartamento para férias").ano(2003).preco(750000)
+				.imagens(new ArrayList<String>(List.of("imagem1", "imagem2"))).build());
 
+		System.out.println("Data creation complete...");
+		
+	}
+
+	public void showAllImovelItems() {
+
+		List<Imovel> imoveis = new ArrayList<Imovel>();
+		imoveis = imovelRepo.findAll();
+
+		System.out.println("O conteudo de imoveis é: " + imoveis);
+	}
+	*/
 }
