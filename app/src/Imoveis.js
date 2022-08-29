@@ -35,7 +35,7 @@ function Imoveis() {
   }, [searchParams]);
 
   function getImoveisUsados() {
-    searchParams.set("estado", "novo");
+    searchParams.set("estado", "usado");
     setSearchParams(searchParams);
   }
 

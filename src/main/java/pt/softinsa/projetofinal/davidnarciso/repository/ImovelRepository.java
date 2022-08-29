@@ -9,11 +9,19 @@ import pt.softinsa.projetofinal.davidnarciso.model.Imovel;
 
 public interface ImovelRepository extends MongoRepository<Imovel, String> {
 
-	// Não é necessário definir manualmente a query. Vou deixar apenas para
-	// o caso de precisar da sintaxe no futuro
-	@Query("{id:'?0'}")
+	//Se posso passar uma query em string posso manipulá-la em runtime
+	static String _query = "{tipo:'?0', categoria:'?1', tipologia:'?2'}";
+	
 	Imovel findImovelById(String id);
 
-	List<Imovel> findImovelByTipo(String tipo);
+	List<Imovel> findImoveisByTipo(String tipo);
+	
+	@Query("{tipo:'?0', categoria:'?1'}")
+	List<Imovel> findImoveisByTipoCategoria(String tipo, String categoria);
 
+	@Query(_query)
+	List<Imovel> findImoveisByTipoCategoriaTipologia(String tipo, String categoria, String tipologia);
+	
+	//QUERY PARA ENCONTRAR DOIS TIPOS DE IMOVEL
+	//{tipo:{$in:["APARTAMENTO","MORADIA"]}}
 }
