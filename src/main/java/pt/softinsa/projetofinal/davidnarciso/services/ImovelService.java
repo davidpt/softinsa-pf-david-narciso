@@ -14,10 +14,17 @@ public class ImovelService {
 
 	@Autowired
 	ImovelRepository imovelRepo;
-	
+
+	public Imovel GetImovelByID(String id) {
+		return imovelRepo.findImovelById(id);
+	}
+
+	public List<Imovel> GetImoveis() {
+		return imovelRepo.findAll();
+	}
+
 	public List<Imovel> GetApartamentos() {
 		return imovelRepo.findImovelByTipo(Tipo.APARTAMENTO.name());
-		
 	}
-	
+
 }

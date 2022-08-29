@@ -1,41 +1,52 @@
 package pt.softinsa.projetofinal.davidnarciso.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import lombok.AllArgsConstructor;
 import pt.softinsa.projetofinal.davidnarciso.enums.Categoria;
 import pt.softinsa.projetofinal.davidnarciso.enums.Estado;
 import pt.softinsa.projetofinal.davidnarciso.model.Imovel;
 import pt.softinsa.projetofinal.davidnarciso.services.ImovelService;
 
-@Controller
+//@Controller
 @RestController
-@AllArgsConstructor
+// @AllArgsConstructor
+@RequestMapping("/api")
 public class ImovelController {
 
 	@Autowired
 	ImovelService imovelService;
 
-	@GetMapping(value = "/")
-	public ModelAndView getIndex() {
+	/*
+	 * @GetMapping(value = "/")
+	 * public ModelAndView getIndex() {
+	 * 
+	 * ModelAndView model = new ModelAndView("index.html");
+	 * return model;
+	 * }
+	 */
 
-		ModelAndView model = new ModelAndView("index.html");
-		return model;
+	@GetMapping(value = "/imovel/{id}")
+	public Imovel getImovel(@PathVariable(value="id") String id) {
+
+		return imovelService.GetImovelByID(id);
+
 	}
 
-	@GetMapping(value = "/apartamentos")
-	public ModelAndView getApartamentos(@RequestParam(value = "categoria", required = false) String categoria,
+	@GetMapping(value = "/imoveis")
+	public Collection<Imovel> getImoveis(@RequestParam(value = "categoria", required = false) String categoria,
 			@RequestParam(value = "estado", required = false) String estado) {
 
-		List<Imovel> _imoveis = imovelService.GetApartamentos();
+		List<Imovel> _imoveis = imovelService.GetImoveis();
 
 		// Se não reconhecer a categoria deixa o log e passa à frente, lista os
 		// resultados sem categoria
@@ -83,10 +94,7 @@ public class ImovelController {
 			}
 		}
 
-		ModelAndView model = new ModelAndView("apartamentos.html");
-		model.addObject("imoveis", _imoveis);
-
-		return model;
+		return _imoveis;
 	}
 
 	@GetMapping(value = "/moradias")
