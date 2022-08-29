@@ -3,6 +3,8 @@ package pt.softinsa.projetofinal.davidnarciso.controller;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +22,18 @@ public class ImovelController {
 
 	@Autowired
 	ImovelService imovelService;
-
+	
 	@GetMapping(value = "/imovel/{id}")
-	public Imovel getImovel(@PathVariable(value = "id") String id) {
-		return imovelService.GetImovelByID(id);
-	}
+    ResponseEntity<?> getImovelByID(@PathVariable(value = "id") String id) {
+        
+		Imovel _i = imovelService.GetImovelByID(id);
+		
+		if (_i != null) {
+			return new ResponseEntity<Imovel>(_i, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Imovel>(HttpStatus.NOT_FOUND);
+		}
+    }
 
 	@GetMapping(value = "/imoveis")
 	public Collection<Imovel> getImoveis() {

@@ -1,13 +1,12 @@
 import "./App.css";
 import logo from "./logo.svg";
 import React, { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 function Imoveis() {
   const [imoveis, setImoveis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     let queryString = "/api/imoveis";
@@ -57,7 +56,8 @@ function Imoveis() {
               <p style={{ margin: "0" }}>Categoria: {imoveis.categoria}</p>
               <p style={{ margin: "0" }}>Estado: {imoveis.estado}</p>
               <p style={{ margin: "0" }}>Descrição: {imoveis.descricao}</p>
-              <button onClick={() => navigate("/anuncio/" + imoveis.id)}>ABRIR ANUNCIO</button>
+              <Link to={"/anuncio/"+imoveis.id}>ABRIR ANUNCIO</Link>
+              <Link to={"/anuncio/editar/"+imoveis.id}>EDITAR ANUNCIO</Link>
             </div>
           ))}
           <button onClick={() => getImoveisUsados()}>IMOVEIS USADOS</button>

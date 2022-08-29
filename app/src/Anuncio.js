@@ -2,29 +2,48 @@ import "./App.css";
 import logo from "./logo.svg";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import NotFound from "./NotFound";
 
 function Anuncio() {
   const params = useParams();
   const [imovel, setImovel] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
 
   useEffect(() => {
     let queryString = "/api/imovel/" + params.id;
 
-    //console.log(queryString);
+    console.log(queryString);
 
     setLoading(true);
 
     fetch(queryString)
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then(data => {
         setImovel(data);
+      })
+      .catch(error => {
+        console.error("Error fetching data: ", error);
+        setError(error);
+      })
+      .finally(() => {
         setLoading(false);
-      });
-  }, [params]);
+      })
+
+  //eslint-disable-next-line
+  }, []);
 
   if (loading) {
     return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <NotFound />
   }
 
   return (
