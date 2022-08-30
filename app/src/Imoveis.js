@@ -61,6 +61,7 @@ function Imoveis() {
             </div>
           ))}
           <button onClick={() => getImoveisUsados()}>IMOVEIS USADOS</button>
+          <Link to={"/anuncio/adicionar"}>ADICIONAR NOVO ANUNCIO</Link>
         </div>
       </header>
     </div>

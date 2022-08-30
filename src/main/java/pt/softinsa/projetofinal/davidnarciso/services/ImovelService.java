@@ -79,5 +79,9 @@ public class ImovelService {
 		
 		return imovelRepo.findImoveisByTipoCategoriaTipologia(_t.name(), _c.name(), tipologia);
 	}
+	
+	public Imovel AddOrUpdateImovel(Imovel i) {
+		return imovelRepo.save(i);
+	}
 
 }

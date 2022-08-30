@@ -14,6 +14,7 @@ function App() {
         <Route exact path="/imoveis" element={<Imoveis />} />
         <Route path="/anuncio/:id" element={<Anuncio />} />
         <Route path="/anuncio/editar/:id" element={<Editar />} />
+        <Route path="/anuncio/adicionar" element={<Editar />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -1,42 +1,77 @@
 import "./App.css";
 import logo from "./logo.svg";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 function Editar() {
   const params = useParams();
   const [imovel, setImovel] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [descricao, setDescricao] = useState();
-  const [ano, setAno] = useState();
+  let navigate = useNavigate();
+
+  const initialFormState = {
+    id: '',
+    tipo: '',
+    tipologia: '',
+    categoria: '',
+    estado: '',
+    descricao: ''
+  };
 
   useEffect(() => {
-    let queryString = "/api/imovel/" + params.id;
+    if (params.id != null) {
+      let queryString = "/api/imovel/" + params.id;
 
-    //console.log(queryString);
+      //console.log(queryString);
+      setLoading(true);
 
-    setLoading(true);
-
-    fetch(queryString)
-      .then((response) => response.json())
-      .then((data) => {
-        setImovel(data);
-        setDescricao(data.descricao);
-        setAno(data.ano);
-
-        setLoading(false);
-      });
+      fetch(queryString)
+        .then((response) => response.json())
+        .then((data) => {
+          setImovel(data);
+          setLoading(false);
+        });
+    }
   }, [params]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setImovel({ ...imovel, [name]: value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    await fetch(
+      "/api/imovel/" + (imovel.id ? "editar/" + imovel.id : "adicionar"),
+      {
+        method: imovel.id ? "PUT" : "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(imovel),
+      }
+    );
+    //TODO: implementar isto para limpar os campos
+    setImovel(initialFormState);
+
+    //Posso redirecionar ou posso dar apenas uma notificação a dizer que o imóvel foi adicionado/editado
+    navigate("/imoveis");
+  };
 
   if (loading) {
     return <p>Loading...</p>;
   }
+
+  const title = <h2>{imovel.id ? "Editar imóvel" : "Adicionar imóvel"}</h2>;
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <div className="App-intro">
+          {title}
           <div key={imovel.id}>
             <p style={{ marginBottom: "0" }}>
               {imovel.tipo}, {imovel.tipologia}
@@ -46,9 +81,9 @@ function Editar() {
             <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
           </div>
           <div>
-            <form action="/index.html" method="post">
+            <form onSubmit={handleSubmit}>
               <label>ID imóvel</label>
-              <input type="text" id="id" name="id" value={imovel.id} disabled />
+              <input type="text" id="id" name="id" defaultValue={imovel.id} disabled />
 
               <label>Tipo</label>
               <select id="tipo" name="tipo">
@@ -83,8 +118,8 @@ function Editar() {
                 type="text"
                 id="descricao"
                 name="descricao"
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
+                defaultValue={imovel.descricao}
+                onChange={handleChange}
                 required
               />
 
@@ -95,8 +130,8 @@ function Editar() {
                 name="ano"
                 min="1900"
                 max="2022"
-                value={ano}
-                onChange={(e) => setAno(e.target.value)}
+                defaultValue={imovel.ano}
+                onChange={handleChange}
                 required
               />
 
