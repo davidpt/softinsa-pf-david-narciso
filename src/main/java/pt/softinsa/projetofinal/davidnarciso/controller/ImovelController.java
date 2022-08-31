@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,10 +41,10 @@ public class ImovelController {
 		}
 	}
 
-	// Editar um imóvel
+	// Atualizar um imóvel
 	@PutMapping(value = "/imovel/editar/{id}")
 	ResponseEntity<Imovel> updateImovel(@RequestBody Imovel i) {
-		System.out.println("\n\nRequest to update imovel: {}" + i + "\n\n");
+		System.out.println("\n\nRequest to update imovel: " + i + "\n\n");
 		Imovel result = imovelService.AddOrUpdateImovel(i);
 		return ResponseEntity.ok().body(result);
 	}
@@ -51,10 +52,19 @@ public class ImovelController {
 	// Adicionar um imóvel
 	@PostMapping(value = "/imovel/adicionar")
 	ResponseEntity<Imovel> addImovel(@RequestBody Imovel i) throws URISyntaxException {
-		System.out.println("\n\nRequest to add imovel: {}" + i + "\n\n");
+		System.out.println("\n\nRequest to add imovel: " + i + "\n\n");
 		Imovel result = imovelService.AddOrUpdateImovel(i);
 		return ResponseEntity.created(new URI("/api/imovel/" + result.getId())).body(result);
 	}
+	
+	//Apagar um imóvel
+	@DeleteMapping("/imovel/apagar/{id}")
+    public ResponseEntity<?> deleteGroup(@PathVariable(value = "id") String id) {
+		System.out.println("\n\nRequest to delete imovel ID: " + id + "\n\n");
+		
+        imovelService.DeleteImovelByID(id);
+        return ResponseEntity.ok().build();
+    }
 
 	@GetMapping(value = "/imoveis")
 	public Collection<Imovel> getImoveis() {

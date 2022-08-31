@@ -33,6 +33,19 @@ function Imoveis() {
       });
   }, [searchParams]);
 
+  const remove = async (id) => {
+    await fetch(`/api/imovel/apagar/${id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      let updatedImoveis = [...imoveis].filter((i) => i.id !== id);
+      setImoveis(updatedImoveis);
+    });
+  };
+
   function getImoveisUsados() {
     searchParams.set("estado", "usado");
     setSearchParams(searchParams);
@@ -48,16 +61,17 @@ function Imoveis() {
         <img src={logo} className="App-logo" alt="logo" />
         <div className="App-intro">
           <h2>Lista de Apartamentos</h2>
-          {imoveis.map((imoveis) => (
-            <div key={imoveis.id}>
+          {imoveis.map((imovel) => (
+            <div key={imovel.id}>
               <p style={{ marginBottom: "0" }}>
-                {imoveis.tipo}, {imoveis.tipologia}
+                {imovel.tipo}, {imovel.tipologia}
               </p>
-              <p style={{ margin: "0" }}>Categoria: {imoveis.categoria}</p>
-              <p style={{ margin: "0" }}>Estado: {imoveis.estado}</p>
-              <p style={{ margin: "0" }}>Descrição: {imoveis.descricao}</p>
-              <Link to={"/anuncio/"+imoveis.id}>ABRIR ANUNCIO</Link>
-              <Link to={"/anuncio/editar/"+imoveis.id}>EDITAR ANUNCIO</Link>
+              <p style={{ margin: "0" }}>Categoria: {imovel.categoria}</p>
+              <p style={{ margin: "0" }}>Estado: {imovel.estado}</p>
+              <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
+              <Link to={"/anuncio/" + imovel.id}>ABRIR ANUNCIO</Link>
+              <Link to={"/anuncio/editar/" + imovel.id}>EDITAR ANUNCIO</Link>
+              <button onClick={() => remove(imovel.id)}>APAGAR ANUNCIO</button>
             </div>
           ))}
           <button onClick={() => getImoveisUsados()}>IMOVEIS USADOS</button>

@@ -83,5 +83,9 @@ public class ImovelService {
 	public Imovel AddOrUpdateImovel(Imovel i) {
 		return imovelRepo.save(i);
 	}
+	
+	public void DeleteImovelByID(String id) {
+		imovelRepo.deleteById(id);
+	}
 
 }
