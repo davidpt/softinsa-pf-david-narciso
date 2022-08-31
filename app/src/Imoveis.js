@@ -1,17 +1,34 @@
-import "./App.css";
-import logo from "./logo.svg";
 import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
+import { Button, Typography } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function Imoveis() {
   const [imoveis, setImoveis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  //Lida com a snackbar
+  const [open, setOpen] = React.useState(false);
+  const handleClick = (id) => {
+    setOpen(true);
+    remove(id);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   useEffect(() => {
     let queryString = "/api/imoveis";
 
-    //Provavelmente no futuro alterar isto para usar searchParam ( /venda ) e não um useSearchParam ( compra=venda )
     if (searchParams.get("categoria") != null) {
       queryString += "?categoria=" + searchParams.get("categoria");
       if (searchParams.get("estado") != null) {
@@ -20,8 +37,6 @@ function Imoveis() {
     } else if (searchParams.get("estado") != null) {
       queryString += "?estado=" + searchParams.get("estado");
     }
-
-    //console.log(queryString);
 
     setLoading(true);
 
@@ -33,6 +48,7 @@ function Imoveis() {
       });
   }, [searchParams]);
 
+  //Remove o imovel
   const remove = async (id) => {
     await fetch(`/api/imovel/apagar/${id}`, {
       method: "DELETE",
@@ -52,33 +68,66 @@ function Imoveis() {
   }
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="App-header">
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div className="App-intro">
-          <h2>Lista de Apartamentos</h2>
-          {imoveis.map((imovel) => (
-            <div key={imovel.id}>
-              <p style={{ marginBottom: "0" }}>
-                {imovel.tipo}, {imovel.tipologia}
-              </p>
-              <p style={{ margin: "0" }}>Categoria: {imovel.categoria}</p>
-              <p style={{ margin: "0" }}>Estado: {imovel.estado}</p>
-              <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
-              <Link to={"/anuncio/" + imovel.id}>ABRIR ANUNCIO</Link>
-              <Link to={"/anuncio/editar/" + imovel.id}>EDITAR ANUNCIO</Link>
-              <button onClick={() => remove(imovel.id)}>APAGAR ANUNCIO</button>
-            </div>
-          ))}
-          <button onClick={() => getImoveisUsados()}>IMOVEIS USADOS</button>
-          <Link to={"/anuncio/adicionar"}>ADICIONAR NOVO ANUNCIO</Link>
+    <React.Fragment>
+      {/* Variant é o estilo que assume, h1 é o componente que fica como resultado no html */}
+      <Typography variant="h3" component="h1">
+        Lista de Apartamentos
+      </Typography>
+      {imoveis.map((imovel) => (
+        <div key={imovel.id}>
+          <Typography>
+            {imovel.tipo}, {imovel.tipologia}
+          </Typography>
+          <Typography>Categoria: {imovel.categoria}</Typography>
+          <Typography>Estado: {imovel.estado}</Typography>
+          <Typography>Categoria: Descrição: {imovel.descricao}</Typography>
+          <Button
+            component={Link}
+            to={"/anuncio/" + imovel.id}
+            variant="contained"
+            color="primary"
+          >
+            ABRIR ANUNCIO
+          </Button>
+          <Button
+            component={Link}
+            to={"/anuncio/editar/" + imovel.id}
+            variant="contained"
+            color="primary"
+          >
+            EDITAR ANUNCIO
+          </Button>
+          <Button variant="contained" onClick={() => handleClick(imovel.id)}>
+            APAGAR ANUNCIO
+          </Button>
         </div>
-      </header>
-    </div>
+      ))}
+      <Button variant="contained" onClick={() => getImoveisUsados()}>
+        IMOVEIS USADOS
+      </Button>
+      <Button
+        component={Link}
+        to="/anuncio/adicionar"
+        variant="contained"
+        color="primary"
+      >
+        ADICIONAR NOVO ANUNCIO
+      </Button>
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Imóvel apagado com sucesso!
+        </Alert>
+      </Snackbar>
+    </React.Fragment>
   );
 }
 

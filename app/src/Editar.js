@@ -1,5 +1,3 @@
-import "./App.css";
-import logo from "./logo.svg";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
@@ -10,12 +8,12 @@ function Editar() {
   let navigate = useNavigate();
 
   const initialFormState = {
-    id: '',
-    tipo: '',
-    tipologia: '',
-    categoria: '',
-    estado: '',
-    descricao: ''
+    id: "",
+    tipo: "",
+    tipologia: "",
+    categoria: "",
+    estado: "",
+    descricao: "",
   };
 
   useEffect(() => {
@@ -67,80 +65,81 @@ function Editar() {
   const title = <h2>{imovel.id ? "Editar imóvel" : "Adicionar imóvel"}</h2>;
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div className="App-intro">
-          {title}
-          <div key={imovel.id}>
-            <p style={{ marginBottom: "0" }}>
-              {imovel.tipo}, {imovel.tipologia}
-            </p>
-            <p style={{ margin: "0" }}>Categoria: {imovel.categoria}</p>
-            <p style={{ margin: "0" }}>Estado: {imovel.estado}</p>
-            <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
-          </div>
-          <div>
-            <form onSubmit={handleSubmit}>
-              <label>ID imóvel</label>
-              <input type="text" id="id" name="id" defaultValue={imovel.id} disabled />
+    <>
+      {title}
+      <div key={imovel.id}>
+        <p style={{ marginBottom: "0" }}>
+          {imovel.tipo}, {imovel.tipologia}
+        </p>
+        <p style={{ margin: "0" }}>Categoria: {imovel.categoria}</p>
+        <p style={{ margin: "0" }}>Estado: {imovel.estado}</p>
+        <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
+      </div>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <label>ID imóvel</label>
+          <input
+            type="text"
+            id="id"
+            name="id"
+            defaultValue={imovel.id}
+            disabled
+          />
 
-              <label>Tipo</label>
-              <select id="tipo" name="tipo">
-                <option value="MORADIA">Moradia</option>
-                <option value="APARTAMENTO">Apartamento</option>
-              </select>
+          <label>Tipo</label>
+          <select id="tipo" name="tipo">
+            <option value="MORADIA">Moradia</option>
+            <option value="APARTAMENTO">Apartamento</option>
+          </select>
 
-              <label>Tipologia</label>
-              <select id="tipologia" name="tipologia">
-                <option value="T0">T0</option>
-                <option value="T1">T1</option>
-                <option value="T2">T2</option>
-                <option value="T3">T3</option>
-                <option value="T4">T4</option>
-                <option value="T5">T5</option>
-              </select>
+          <label>Tipologia</label>
+          <select id="tipologia" name="tipologia">
+            <option value="T0">T0</option>
+            <option value="T1">T1</option>
+            <option value="T2">T2</option>
+            <option value="T3">T3</option>
+            <option value="T4">T4</option>
+            <option value="T5">T5</option>
+          </select>
 
-              <label>País</label>
-              <select id="pais" name="pais">
-                <option value="Portugal">Portugal</option>
-                <option value="Espanha">Espanha</option>
-              </select>
+          <label>País</label>
+          <select id="pais" name="pais">
+            <option value="Portugal">Portugal</option>
+            <option value="Espanha">Espanha</option>
+          </select>
 
-              <label>Distrito</label>
-              <select id="distrito" name="distrito">
-                <option value="Lisboa">Lisboa</option>
-                <option value="Porto">Porto</option>
-              </select>
+          <label>Distrito</label>
+          <select id="distrito" name="distrito">
+            <option value="Lisboa">Lisboa</option>
+            <option value="Porto">Porto</option>
+          </select>
 
-              <label>Descrição</label>
-              <input
-                type="text"
-                id="descricao"
-                name="descricao"
-                defaultValue={imovel.descricao}
-                onChange={handleChange}
-                required
-              />
+          <label>Descrição</label>
+          <input
+            type="text"
+            id="descricao"
+            name="descricao"
+            defaultValue={imovel.descricao}
+            onChange={handleChange}
+            required
+          />
 
-              <label>Ano</label>
-              <input
-                type="number"
-                id="ano"
-                name="ano"
-                min="1900"
-                max="2022"
-                defaultValue={imovel.ano}
-                onChange={handleChange}
-                required
-              />
+          <label>Ano</label>
+          <input
+            type="number"
+            id="ano"
+            name="ano"
+            min="1900"
+            max="2022"
+            defaultValue={imovel.ano}
+            onChange={handleChange}
+            required
+          />
 
-              <button type="submit">Guardar</button>
-            </form>
-          </div>
-        </div>
-      </header>
-    </div>
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </>
   );
 }
 
