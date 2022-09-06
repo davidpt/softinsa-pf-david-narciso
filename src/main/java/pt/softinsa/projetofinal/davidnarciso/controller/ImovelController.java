@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.softinsa.projetofinal.davidnarciso.model.Imovel;
 import pt.softinsa.projetofinal.davidnarciso.services.ImovelService;
 
-//@Controller
 @RestController
-// @AllArgsConstructor
 @RequestMapping("/api")
 public class ImovelController {
 
@@ -59,7 +57,7 @@ public class ImovelController {
 	
 	//Apagar um imóvel
 	@DeleteMapping("/imovel/apagar/{id}")
-    public ResponseEntity<?> deleteGroup(@PathVariable(value = "id") String id) {
+    public ResponseEntity<?> deleteImovel(@PathVariable(value = "id") String id) {
 		System.out.println("\n\nRequest to delete imovel ID: " + id + "\n\n");
 		
         imovelService.DeleteImovelByID(id);

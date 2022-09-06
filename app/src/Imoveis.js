@@ -77,7 +77,7 @@ function Imoveis() {
 
   return (
     <React.Fragment>
-      {/* Variant é o estilo que assume, h1 é o componente que fica como resultado no html */}
+      {/* Variant é o estilo aplicado, h1 é o que aparece html */}
       <Typography variant="h3" component="h1">
         Lista de Apartamentos
       </Typography>

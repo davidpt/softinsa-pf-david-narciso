@@ -2,6 +2,8 @@ import React from "react";
 import Imoveis from "./Imoveis";
 import Anuncio from "./Anuncio";
 import Editar from "./Editar";
+import AddPhoto from "./AddPhoto";
+import Photo from './Photo';
 import NotFound from "./NotFound";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -9,7 +11,6 @@ import { responsiveFontSizes } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-
   let theme = createTheme({
     typography: {
       //Exemplo de novo estilo, atribuído através da tag variant=
@@ -30,7 +31,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route exact path="/imoveis" element={<Imoveis />} />
+            <Route exact path="/" element={<AddPhoto />} />
+            <Route path="/foto/:id" element={<Photo />} />
+            <Route path="/imoveis" element={<Imoveis />} />
             <Route path="/anuncio/:id" element={<Anuncio />} />
             <Route path="/anuncio/editar/:id" element={<Editar />} />
             <Route path="/anuncio/adicionar" element={<Editar />} />

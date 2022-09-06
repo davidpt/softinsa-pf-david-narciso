@@ -35,5 +35,4 @@ public class Imovel {
 	private int ano;
 	private int preco;
 	private ArrayList<String> imagens;
-	
 }
