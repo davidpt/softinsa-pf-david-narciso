@@ -1,10 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import AddPhoto from "./AddPhoto";
+import { Button, Container } from "@mui/material";
 
 function Editar() {
   const params = useParams();
   const [imovel, setImovel] = useState([]);
+  const [photoArray, setPhotoArray] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [tipologia, setTipologia] = useState(["T0", "T1", "T2", "T3", "T4", "T5"]);
   let navigate = useNavigate();
 
   const initialFormState = {
@@ -19,18 +23,23 @@ function Editar() {
   useEffect(() => {
     if (params.id != null) {
       let queryString = "/api/imovel/" + params.id;
-
-      //console.log(queryString);
       setLoading(true);
 
       fetch(queryString)
         .then((response) => response.json())
         .then((data) => {
           setImovel(data);
+          if (data.imagens != null) {
+            setPhotoArray(data.imagens);
+          }
+          if (data.tipo === "MORADIA") {
+            setTipologia(["V0", "V1", "V2", "V3", "V4", "V5"]);
+            console.log("tive de mudar para moradia!. Valor de tipologia: " + tipologia);
+          }
           setLoading(false);
         });
     }
-  }, [params]);
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -39,18 +48,17 @@ function Editar() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    //Adicionar ao nosso objeto o array com os IDs das imagens
+    imovel.imagens = photoArray;
 
-    await fetch(
-      "/api/imovel/" + (imovel.id ? "editar/" + imovel.id : "adicionar"),
-      {
-        method: imovel.id ? "PUT" : "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(imovel),
-      }
-    );
+    await fetch("/api/imovel/" + (imovel.id ? "edit/" + imovel.id : "add"), {
+      method: imovel.id ? "PUT" : "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(imovel),
+    });
     //TODO: implementar isto para limpar os campos?
     setImovel(initialFormState);
 
@@ -65,7 +73,7 @@ function Editar() {
   const title = <h2>{imovel.id ? "Editar imóvel" : "Adicionar imóvel"}</h2>;
 
   return (
-    <>
+    <Container id="edit" sx={{ pt: 1, pb: 5 }} maxWidth="lg">
       {title}
       <div key={imovel.id}>
         <p style={{ marginBottom: "0" }}>
@@ -93,13 +101,16 @@ function Editar() {
           </select>
 
           <label>Tipologia</label>
-          <select id="tipologia" name="tipologia">
-            <option value="T0">T0</option>
-            <option value="T1">T1</option>
-            <option value="T2">T2</option>
-            <option value="T3">T3</option>
-            <option value="T4">T4</option>
-            <option value="T5">T5</option>
+          <select onChange={handleChange} id="tipologia" name="tipologia">
+            {tipologia.map((_t, index) =>
+              imovel.tipologia === _t ? (
+                <option key={index} selected value={_t}>
+                  {_t}
+                </option>
+              ) : (
+                <option key={index} value={_t}>{_t}</option>
+              )
+            )}
           </select>
 
           <label>País</label>
@@ -135,11 +146,13 @@ function Editar() {
             onChange={handleChange}
             required
           />
-
-          <button type="submit">Guardar</button>
+          <Button type="submit" variant="contained">
+            Guardar
+          </Button>
         </form>
+        <AddPhoto photoArray={photoArray} setPhotoArray={setPhotoArray} />
       </div>
-    </>
+    </Container>
   );
 }
 

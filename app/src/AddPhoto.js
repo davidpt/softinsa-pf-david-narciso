@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import Photo from "./Photo";
-import { Button, Container, Grid, Typography, Stack } from "@mui/material";
+import { Button, Grid, Typography, Stack } from "@mui/material";
+import { useSnackbar } from "notistack";
 
-function AddPhoto() {
-  const [photoArray, setPhotoArray] = useState([]);
+// Esta função trata de adicionar e apagar fotos na BD
+export default function AddPhoto(props) {
   const [photoName, setPhotoName] = useState();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (photoArray.length >= 3) {
-      alert("No more photos allowed");
+    if (props.photoArray.length >= 3) {
+      enqueueSnackbar('Não é possivel adicionar mais fotos', {
+        preventDuplicate: false,
+        variant: 'error',
+      });
       return;
     }
 
@@ -18,46 +23,51 @@ function AddPhoto() {
     data.append("type", data.get("image").type);
 
     if (data.get("image").size === 0) {
-      alert("Please select a file");
+      enqueueSnackbar('Por favor selecione um ficheiro', {
+        preventDuplicate: false,
+        variant: 'warning',
+      });
       return;
     }
     if (data.get("image").size >= 5242880) {
       alert("File size is too large, maximum is 5MB");
       return;
     }
-    
+
     await fetch("/api/photos/add", {
       method: "POST",
       headers: {
-        'Accept': "application/json",
+        Accept: "application/json",
       },
       body: data,
     })
       .then((response) => response.text())
       .then((text) => {
-        //console.log(text);
-        setPhotoArray((oldArray) => [...oldArray, text]);
+        props.setPhotoArray((oldArray) => [...oldArray, text]);
+        enqueueSnackbar("Adicionada a imagem com o ID: " + text, {
+          preventDuplicate: false,
+          variant: "success",
+        });
       });
   };
 
   const handleDelete = async (id) => {
-    
-    console.log("vamos apagar o id: " + id);
-
     await fetch("/api/photos/delete/" + id, {
       method: "DELETE",
       headers: {
-        'Accept': "application/json",
-        'Content-Type': 'application/json'
-      }
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     }).then(() => {
-      let updatedPhotos = [...photoArray].filter(photo_id => photo_id !== id);
-      setPhotoArray(updatedPhotos);
-      
-      console.log("Resultado de apagar:");
-      console.dir(photoArray);
+      let updatedPhotos = [...props.photoArray].filter(
+        (photo_id) => photo_id !== id
+      );
+      props.setPhotoArray(updatedPhotos);
+      enqueueSnackbar('Imagem apagada com sucesso', {
+        preventDuplicate: false,
+        variant: 'success',
+      });
     });
-
   };
 
   function handleFileChange(event) {
@@ -69,18 +79,21 @@ function AddPhoto() {
   }
 
   return (
-    <Container id="addPhoto" sx={{ pt: 1, pb: 5 }} maxWidth="lg">
+    <React.Fragment>
       <Grid>
         <Typography
           textAlign="left"
           color="text.primary"
           gutterBottom
-          variant="h1"
+          variant="h2"
+          component="h1"
         >
           -&nbsp;Upload new Photo
         </Typography>
         <form onSubmit={handleSubmit}>
-          <Typography variant="h2">Imagem a fazer upload:</Typography>
+          <Typography variant="h4" component="h2">
+            Imagem a fazer upload:
+          </Typography>
           <Stack
             sx={{ pt: 2, pb: 1 }}
             direction="row"
@@ -88,7 +101,7 @@ function AddPhoto() {
             spacing={2}
           >
             <Button variant="outlined" component="label">
-              Choose a file..
+              Escolha um ficheiro..
               <input
                 type="file"
                 name="image"
@@ -112,8 +125,8 @@ function AddPhoto() {
       </Grid>
 
       <Grid container>
-        {photoArray ? (
-          photoArray.map((id) => (
+        {props.photoArray ? (
+          props.photoArray.map((id) => (
             <Grid
               sx={{ padding: 2 }}
               style={{ maxHeight: "50vh" }}
@@ -124,15 +137,15 @@ function AddPhoto() {
               item
             >
               <Photo id={id} />
-              <Button onClick={() => handleDelete(id)} variant="contained">Eliminar</Button>
+              <Button onClick={() => handleDelete(id)} variant="contained">
+                Eliminar
+              </Button>
             </Grid>
           ))
         ) : (
           <>Ainda não temos imagem</>
         )}
       </Grid>
-    </Container>
+    </React.Fragment>
   );
 }
-
-export default AddPhoto;

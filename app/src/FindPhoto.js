@@ -1,7 +1,10 @@
+import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import NotFound from "./NotFound";
 
-function Photo(props) {
+//Esta função é usada apenas para exibir a foto quando o url é: /api/photos/ID_da_photo
+export default function FindPhoto() {
+  const params = useParams();
   const [photo, setPhoto] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -9,7 +12,7 @@ function Photo(props) {
   useEffect(() => {
     let queryString = "/api/photos/";
 
-    queryString += props.id;
+    queryString += params.id;
     setLoading(true);
 
     fetch(queryString)
@@ -46,7 +49,6 @@ function Photo(props) {
       {photo.image ? (
         photo.image.data ? (
           <img
-            style={{ borderRadius:"5%", height:"100%", width: "100%", objectFit:"cover" }}
             alt=""
             src={"data:" + photo.type + ";base64," + photo.image.data}
           />
@@ -58,6 +60,4 @@ function Photo(props) {
       )}
     </React.Fragment>
   );
-}
-
-export default Photo;
+};

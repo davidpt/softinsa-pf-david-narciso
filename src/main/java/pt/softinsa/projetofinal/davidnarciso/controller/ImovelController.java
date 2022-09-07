@@ -40,7 +40,7 @@ public class ImovelController {
 	}
 
 	// Atualizar um imóvel
-	@PutMapping(value = "/imovel/editar/{id}")
+	@PutMapping(value = "/imovel/edit/{id}")
 	ResponseEntity<Imovel> updateImovel(@RequestBody Imovel i) {
 		System.out.println("\n\nRequest to update imovel: " + i + "\n\n");
 		Imovel result = imovelService.AddOrUpdateImovel(i);
@@ -48,7 +48,7 @@ public class ImovelController {
 	}
 
 	// Adicionar um imóvel
-	@PostMapping(value = "/imovel/adicionar")
+	@PostMapping(value = "/imovel/add")
 	ResponseEntity<Imovel> addImovel(@RequestBody Imovel i) throws URISyntaxException {
 		System.out.println("\n\nRequest to add imovel: " + i + "\n\n");
 		Imovel result = imovelService.AddOrUpdateImovel(i);
@@ -56,7 +56,7 @@ public class ImovelController {
 	}
 	
 	//Apagar um imóvel
-	@DeleteMapping("/imovel/apagar/{id}")
+	@DeleteMapping("/imovel/delete/{id}")
     public ResponseEntity<?> deleteImovel(@PathVariable(value = "id") String id) {
 		System.out.println("\n\nRequest to delete imovel ID: " + id + "\n\n");
 		

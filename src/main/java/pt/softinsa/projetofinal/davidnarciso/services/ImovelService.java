@@ -9,13 +9,17 @@ import pt.softinsa.projetofinal.davidnarciso.enums.Categoria;
 import pt.softinsa.projetofinal.davidnarciso.enums.Tipo;
 import pt.softinsa.projetofinal.davidnarciso.model.Imovel;
 import pt.softinsa.projetofinal.davidnarciso.repository.ImovelRepository;
+import pt.softinsa.projetofinal.davidnarciso.repository.PhotoRepository;
 
 @Service
 public class ImovelService {
 
 	@Autowired
 	ImovelRepository imovelRepo;
-
+ 
+	@Autowired
+	PhotoRepository photoRepo;
+	
 	public Imovel GetImovelByID(String id) {
 		return imovelRepo.findImovelById(id);
 	}
@@ -85,6 +89,14 @@ public class ImovelService {
 	}
 	
 	public void DeleteImovelByID(String id) {
+		Imovel i = imovelRepo.findImovelById(id);
+		
+		//Apaga as imagens associadas 
+		for (String s: i.getImagens()) 
+		{ 
+		    photoRepo.deleteById(s);
+		}
+		
 		imovelRepo.deleteById(id);
 	}
 
