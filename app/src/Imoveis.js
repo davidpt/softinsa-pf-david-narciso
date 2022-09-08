@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Button, Container, Grid, Stack, Typography } from "@mui/material";
-import { useSnackbar } from 'notistack';
+import { useSnackbar } from "notistack";
 import Photo from "./Photo";
 
 function Imoveis() {
   const [imoveis, setImoveis] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = (id) => {
-    enqueueSnackbar('Imóvel apagado com sucesso', {
+    enqueueSnackbar("Imóvel apagado com sucesso", {
       preventDuplicate: false,
-      variant: 'success',
+      variant: "success",
     });
     remove(id);
   };
@@ -54,10 +54,10 @@ function Imoveis() {
     });
   };
 
-  function getImoveisUsados() {
-    searchParams.set("estado", "usado");
-    setSearchParams(searchParams);
-  }
+  // function getImoveisUsados() {
+  //   searchParams.set("estado", "usado");
+  //   setSearchParams(searchParams);
+  // }
 
   if (loading) {
     return (
@@ -75,10 +75,10 @@ function Imoveis() {
       </Typography>
       {imoveis.map((imovel) => (
         <div key={imovel.id}>
+          <Typography>{imovel.titulo}</Typography>
           <Typography>
             {imovel.tipo}, {imovel.tipologia}
           </Typography>
-          <Typography>Categoria: {imovel.categoria}</Typography>
           <Typography>Estado: {imovel.estado}</Typography>
           <Typography>Descrição: {imovel.descricao}</Typography>
           {imovel.imagens ? (
@@ -103,6 +103,8 @@ function Imoveis() {
           ) : (
             <Typography variant="body1">Este imóvel não tem imagens</Typography>
           )}
+          <Typography>Ano: {imovel.ano}</Typography>
+          <Typography>Preço: {imovel.preco} €</Typography>
           <Stack sx={{ py: 2 }} direction="row" alignItems="center" spacing={2}>
             <Button
               component={Link}

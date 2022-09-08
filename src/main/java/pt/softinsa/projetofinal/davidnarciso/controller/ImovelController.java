@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pt.softinsa.projetofinal.davidnarciso.model.Imovel;
@@ -54,15 +53,15 @@ public class ImovelController {
 		Imovel result = imovelService.AddOrUpdateImovel(i);
 		return ResponseEntity.created(new URI("/api/imovel/" + result.getId())).body(result);
 	}
-	
-	//Apagar um imóvel
+
+	// Apagar um imóvel
 	@DeleteMapping("/imovel/delete/{id}")
-    public ResponseEntity<?> deleteImovel(@PathVariable(value = "id") String id) {
+	public ResponseEntity<?> deleteImovel(@PathVariable(value = "id") String id) {
 		System.out.println("\n\nRequest to delete imovel ID: " + id + "\n\n");
-		
-        imovelService.DeleteImovelByID(id);
-        return ResponseEntity.ok().build();
-    }
+
+		imovelService.DeleteImovelByID(id);
+		return ResponseEntity.ok().build();
+	}
 
 	@GetMapping(value = "/imoveis")
 	public Collection<Imovel> getImoveis() {
@@ -74,19 +73,4 @@ public class ImovelController {
 		return imovelService.GetImoveisByTipo(tipo);
 	}
 
-	@GetMapping(value = "/imoveis/{tipo}/{categoria}")
-	public Collection<Imovel> getImoveisTipoEstado(@PathVariable(value = "tipo", required = false) String tipo,
-			@PathVariable(value = "categoria", required = false) String categoria,
-			@RequestParam(value = "estado", required = false) String estado,
-			@RequestParam(value = "tipologia", required = false) String tipologia) {
-
-		// TODO: implementar os métodos para os parâmetros passados -> estado e
-		// tipologia
-		if (tipologia != null) {
-			return imovelService.GetImoveisByTipoCategoriaTipologia(tipo, categoria, tipologia);
-		} else {
-			return imovelService.GetImoveisByTipoCategoria(tipo, categoria);
-		}
-
-	}
 }

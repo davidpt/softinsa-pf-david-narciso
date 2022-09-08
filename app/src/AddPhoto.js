@@ -11,21 +11,13 @@ export default function AddPhoto(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (props.photoArray.length >= 3) {
-      enqueueSnackbar('Não é possivel adicionar mais fotos', {
-        preventDuplicate: false,
-        variant: 'error',
-      });
-      return;
-    }
-
     const data = new FormData(event.target);
     data.append("type", data.get("image").type);
 
     if (data.get("image").size === 0) {
-      enqueueSnackbar('Por favor selecione um ficheiro', {
+      enqueueSnackbar("Por favor selecione um ficheiro", {
         preventDuplicate: false,
-        variant: 'warning',
+        variant: "warning",
       });
       return;
     }
@@ -63,9 +55,9 @@ export default function AddPhoto(props) {
         (photo_id) => photo_id !== id
       );
       props.setPhotoArray(updatedPhotos);
-      enqueueSnackbar('Imagem apagada com sucesso', {
+      enqueueSnackbar("Imagem apagada com sucesso", {
         preventDuplicate: false,
-        variant: 'success',
+        variant: "success",
       });
     });
   };
@@ -105,7 +97,7 @@ export default function AddPhoto(props) {
               <input
                 type="file"
                 name="image"
-                accept="image/png, image/jpeg"
+                accept="image/png, image/jpeg, image/webp"
                 hidden
                 onChange={handleFileChange}
               />

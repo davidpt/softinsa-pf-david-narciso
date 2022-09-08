@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pt.softinsa.projetofinal.davidnarciso.enums.Categoria;
 import pt.softinsa.projetofinal.davidnarciso.enums.Estado;
 import pt.softinsa.projetofinal.davidnarciso.enums.Tipo;
 
@@ -23,16 +22,13 @@ public class Imovel {
 	@Id
 	private String id;
 	
+	private String titulo;
 	private Tipo tipo;
-	private Categoria categoria;
-	private Estado estado;
 	private String tipologia;
-	private String pais;
+	private Estado estado;
 	private String distrito;
-	private String concelho;
-	private String freguesia;
-	private String descricao;
 	private int ano;
 	private int preco;
+	private String descricao;
 	private ArrayList<String> imagens;
 }
