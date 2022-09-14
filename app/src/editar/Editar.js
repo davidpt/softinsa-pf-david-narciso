@@ -446,7 +446,7 @@ export default function Editar() {
         <AddPhoto photoArray={photoArray} setPhotoArray={setPhotoArray} />
 
         <Button type="submit" variant="contained">
-          Adicionar
+          Guardar
         </Button>
       </Stack>
     </Container>

@@ -51,7 +51,7 @@ export default function SectionIntro() {
         {imovel.titulo}
       </Typography>
       <Grid container>
-        <Grid item xs={12} md={4} sx={{margin:"auto"}}>
+        <Grid item xs={12} md={4} sx={{ margin: "auto" }}>
           <Typography variant="h4" component="h2">
             Tipo de imóvel
           </Typography>
@@ -100,7 +100,8 @@ export default function SectionIntro() {
           )}
         </Grid>
       </Grid>
-      <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
+      <Typography variant="h4">Descrição</Typography>
+      <Typography variant="body1">{imovel.descricao}</Typography>
     </Container>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Imoveis from "./Imoveis";
 import Anuncio from "./Anuncio";
 import Editar from "./editar/Editar";
@@ -22,9 +22,23 @@ const onClickDismiss = (key) => () => {
 };
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (window.localStorage.getItem("darkmode") != null) {
+      setDarkMode(JSON.parse(window.localStorage.getItem("darkmode")));
+    }
+  }, []);
+  useEffect(() => {
+    window.localStorage.setItem("darkmode", darkMode);
+  }, [darkMode]);
+
   let theme = createTheme({
     palette: {
-      mode: "light",
+      background: {
+        default: darkMode === true ? "#0a1929" : "white",
+      },
+      mode: darkMode === true ? "dark" : "light",
     },
     typography: {
       //Exemplo de novo estilo, atribuído através da tag variant=
@@ -53,7 +67,7 @@ function App() {
               </Button>
             )}
           >
-            <Header />
+            <Header darkmode={darkMode} setdarkmode={setDarkMode} />
             <Routes>
               <Route exact path="/" element={<Homepage />} />
               <Route path="/foto/:id" element={<FindPhoto />} />

@@ -89,12 +89,15 @@ export default function AddPhoto(props) {
         </Stack>
       </Grid>
 
-      <Grid sx={{ pb: 7 }} container>
+      <Grid sx={{ pb: 2 }} container>
         {props.photoArray ? (
           props.photoArray.map((id) => (
             <Grid
-              sx={{ padding: 1 }}
-              style={{ maxHeight: "50vh" }}
+              sx={{
+                padding: 1,
+                height: "350px",
+                mb: 6,
+              }}
               textAlign="center"
               xs={6}
               lg={4}
