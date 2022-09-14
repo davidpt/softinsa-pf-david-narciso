@@ -1,9 +1,8 @@
 import React from "react";
 import Imoveis from "./Imoveis";
 import Anuncio from "./Anuncio";
-import Editar from "./Editar";
-import AddPhoto from "./AddPhoto";
-import NotFound from "./NotFound";
+import Editar from "./editar/Editar";
+import NotFound from "./common/NotFound";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { responsiveFontSizes } from "@mui/material/styles";
@@ -12,6 +11,9 @@ import FindPhoto from "./FindPhoto";
 import { SnackbarProvider } from "notistack";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Homepage from "./Homepage";
+import Header from "./common/Header";
+import Footer from "./common/Footer";
 
 // add action to all snackbars
 const notistackRef = React.createRef();
@@ -21,6 +23,9 @@ const onClickDismiss = (key) => () => {
 
 function App() {
   let theme = createTheme({
+    palette: {
+      mode: "light",
+    },
     typography: {
       //Exemplo de novo estilo, atribuído através da tag variant=
       subtitle1: {
@@ -36,8 +41,8 @@ function App() {
 
   return (
     <React.Fragment>
-      <CssBaseline enableColorScheme />
       <ThemeProvider theme={theme}>
+        <CssBaseline enableColorScheme />
         <BrowserRouter>
           <SnackbarProvider
             maxSnack={4}
@@ -48,8 +53,9 @@ function App() {
               </Button>
             )}
           >
+            <Header />
             <Routes>
-              <Route exact path="/" element={<AddPhoto />} />
+              <Route exact path="/" element={<Homepage />} />
               <Route path="/foto/:id" element={<FindPhoto />} />
               <Route path="/imoveis" element={<Imoveis />} />
               <Route path="/anuncio/:id" element={<Anuncio />} />
@@ -57,6 +63,7 @@ function App() {
               <Route path="/anuncio/adicionar" element={<Editar />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <Footer />
           </SnackbarProvider>
         </BrowserRouter>
       </ThemeProvider>

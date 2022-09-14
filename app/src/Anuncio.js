@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import NotFound from "./NotFound";
-import Photo from "./Photo";
+import NotFound from "./common/NotFound";
+import Photo from "./common/Photo";
 import { Container, Grid, Typography } from "@mui/material";
+import Carousel from "react-material-ui-carousel";
+import { Box } from "@mui/system";
 
-function Anuncio() {
+export default function SectionIntro() {
   const params = useParams();
   const [imovel, setImovel] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,42 +47,60 @@ function Anuncio() {
 
   return (
     <Container maxWidth="lg">
-      <div style={{ padding: 30 }}>
-        <h1>ID: {params.id}</h1>
-      </div>
-      <div key={imovel.id}>
-        <p style={{ marginBottom: "0" }}>
-          {imovel.tipo}, {imovel.tipologia}
-        </p>
-        <p style={{ margin: "0" }}>Categoria: {imovel.categoria}</p>
-        <p style={{ margin: "0" }}>Estado: {imovel.estado}</p>
-        <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
-
-        <p style={{ margin: "0" }}>Imagens: {imovel.descricao}</p>
-        {imovel.imagens ? (
-          <Grid container>
-            <Typography>Imagens:</Typography>
-
-            {imovel.imagens.map((_id) => (
-              <Grid
-                sx={{ padding: 2 }}
-                style={{ maxHeight: "20vh" }}
-                textAlign="center"
-                xs={6}
-                lg={4}
-                key={_id}
-                item
-              >
-                <Photo key={_id} id={_id} />
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography variant="body1">Este imóvel não tem imagens</Typography>
-        )}
-      </div>
+      <Typography variant="h3" component="h1" sx={{ my: 3 }}>
+        {imovel.titulo}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12} md={4} sx={{margin:"auto"}}>
+          <Typography variant="h4" component="h2">
+            Tipo de imóvel
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 3 }}>
+            {imovel.tipo}
+          </Typography>
+          <Typography variant="h4" component="h2">
+            Tipologia
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 3 }}>
+            {imovel.tipologia}
+          </Typography>
+          <Typography variant="h4" component="h2">
+            Distrito
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 3 }}>
+            {imovel.distrito}
+          </Typography>
+          <Typography variant="h4" component="h2">
+            Estado
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 3 }}>
+            {imovel.estado}
+          </Typography>
+          <Typography variant="h4" component="h2">
+            ID do imóvel
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 3 }}>
+            {params.id}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={8} sx={{ pb: 5 }}>
+          {imovel.imagens ? (
+            <Carousel swipe={true} autoPlay={false}>
+              {imovel.imagens.map((_id) => (
+                <Box
+                  key={_id}
+                  sx={{ padding: 2, height: "600px", maxHeight: "600px" }}
+                >
+                  <Photo id={_id} />
+                </Box>
+              ))}
+            </Carousel>
+          ) : (
+            <Typography variant="body1">Este imóvel não tem imagens</Typography>
+          )}
+        </Grid>
+      </Grid>
+      <p style={{ margin: "0" }}>Descrição: {imovel.descricao}</p>
     </Container>
   );
 }
-
-export default Anuncio;

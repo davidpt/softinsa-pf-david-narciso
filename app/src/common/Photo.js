@@ -46,7 +46,8 @@ function Photo(props) {
       {photo.image ? (
         photo.image.data ? (
           <img
-            style={{ borderRadius:"5%", height:"100%", width: "100%", objectFit:"cover" }}
+            draggable="false"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
             alt=""
             src={"data:" + photo.type + ";base64," + photo.image.data}
           />

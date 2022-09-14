@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import NotFound from "./NotFound";
+import NotFound from "./common/NotFound";
 
 //Esta função é usada apenas para exibir a foto quando o url é: /api/photos/ID_da_photo
 export default function FindPhoto() {
