@@ -40,16 +40,6 @@ export default function Imoveis() {
 
   useEffect(() => {
     let queryString = "/api/imoveis";
-
-    if (searchParams.get("categoria") != null) {
-      queryString += "?categoria=" + searchParams.get("categoria");
-      if (searchParams.get("estado") != null) {
-        queryString += "&estado=" + searchParams.get("estado");
-      }
-    } else if (searchParams.get("estado") != null) {
-      queryString += "?estado=" + searchParams.get("estado");
-    }
-
     setLoading(true);
 
     fetch(queryString)
@@ -75,9 +65,7 @@ export default function Imoveis() {
   };
 
   if (loading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
