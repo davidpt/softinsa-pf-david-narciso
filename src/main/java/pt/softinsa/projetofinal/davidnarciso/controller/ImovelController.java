@@ -28,7 +28,7 @@ public class ImovelController {
 
 	@GetMapping(value = "/imovel/{id}")
 	ResponseEntity<?> getImovelByID(@PathVariable(value = "id") String id) {
-
+		System.out.println("\nRequest to get imovel ID: " + id + "\n");
 		Imovel _i = imovelService.GetImovelByID(id);
 
 		if (_i != null) {
@@ -49,7 +49,7 @@ public class ImovelController {
 	// Adicionar um imóvel
 	@PostMapping(value = "/imovel/add")
 	ResponseEntity<Imovel> addImovel(@RequestBody Imovel i) throws URISyntaxException {
-		System.out.println("\n\nRequest to add imovel: " + i + "\n\n");
+		System.out.println("\nRequest to add imovel: " + i + "\n");
 		Imovel result = imovelService.AddOrUpdateImovel(i);
 		return ResponseEntity.created(new URI("/api/imovel/" + result.getId())).body(result);
 	}
@@ -57,7 +57,7 @@ public class ImovelController {
 	// Apagar um imóvel
 	@DeleteMapping("/imovel/delete/{id}")
 	public ResponseEntity<?> deleteImovel(@PathVariable(value = "id") String id) {
-		System.out.println("\n\nRequest to delete imovel ID: " + id + "\n\n");
+		System.out.println("\nRequest to delete imovel ID: " + id + "\n");
 
 		imovelService.DeleteImovelByID(id);
 		return ResponseEntity.ok().build();
@@ -65,6 +65,7 @@ public class ImovelController {
 
 	@GetMapping(value = "/imoveis")
 	public Collection<Imovel> getImoveis() {
+		System.out.println("\nRequest to get all imoveis\n");
 		return imovelService.GetImoveis();
 	}
 

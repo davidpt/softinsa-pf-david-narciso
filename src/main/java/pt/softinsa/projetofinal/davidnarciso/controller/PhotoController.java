@@ -26,7 +26,7 @@ public class PhotoController {
 
 	@GetMapping("/photos/{id}")
 	ResponseEntity<Photo> getPhoto(@PathVariable String id) {
-		
+		System.out.println("\nRequest to get photo ID: " + id + "\n");
 		Photo photo = photoService.getPhoto(id);
 		
 		if (photo != null) {
@@ -39,9 +39,9 @@ public class PhotoController {
 	@PostMapping("/photos/add")
 	ResponseEntity<String> addPhoto(@RequestParam("image") MultipartFile image, @RequestParam("type") String type)
 			throws IOException {
-		
 		String id = photoService.addPhoto(image, type);
-
+		System.out.println("\nRequest to add photo ID: " + id + "\n");
+		
 		// TODO: Se der problema ao fazer upload retornar um aviso para que possa saber no front-end
 		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}
@@ -49,7 +49,7 @@ public class PhotoController {
 	//Apagar um imóvel
 	@DeleteMapping("/photos/delete/{id}")
     public ResponseEntity<?> deletePhoto(@PathVariable(value = "id") String id) {
-		System.out.println("\n\nRequest to delete photo ID: " + id + "\n\n");
+		System.out.println("\nRequest to delete photo ID: " + id + "\n");
 		
         photoService.DeletePhotoByID(id);
         return ResponseEntity.ok().build();
