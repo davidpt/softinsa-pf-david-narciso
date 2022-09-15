@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import HouseIcon from "@mui/icons-material/House";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FormControlLabel, Switch } from "@mui/material";
 
@@ -92,8 +92,8 @@ export default function Header(props) {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to={"/"}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -148,8 +148,8 @@ export default function Header(props) {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to={"/"}
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },

@@ -14,6 +14,7 @@ import {
 import { Stack } from "@mui/system";
 import { NumericFormat } from "react-number-format";
 import PropTypes from "prop-types";
+import Loading from "../common/Loading";
 
 const NumberFormatPrice = React.forwardRef(function NumberFormatCustom(
   props,
@@ -290,7 +291,7 @@ export default function Editar() {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   const title = (

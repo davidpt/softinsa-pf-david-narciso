@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import NotFound from "./NotFound";
 
 function Photo(props) {
   const [photo, setPhoto] = useState([]);
@@ -38,19 +37,48 @@ function Photo(props) {
   }
 
   if (error) {
-    return <NotFound />;
+    return (
+      <img
+        draggable="false"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        }}
+        alt="no-img"
+        src="/no-image.jpg"
+      />
+    );
   }
 
   return (
     <React.Fragment>
       {photo.image ? (
         photo.image.data ? (
-          <img
-            draggable="false"
-            style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius:"5%", backgroundColor:"#070c14" }}
-            alt=""
-            src={"data:" + photo.type + ";base64," + photo.image.data}
-          />
+          props.contain === true ? (
+            <img
+              draggable="false"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                backgroundColor: "#252526",
+              }}
+              alt=""
+              src={"data:" + photo.type + ";base64," + photo.image.data}
+            />
+          ) : (
+            <img
+              draggable="false"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+              alt=""
+              src={"data:" + photo.type + ";base64," + photo.image.data}
+            />
+          )
         ) : (
           "No content on photo.image.data"
         )

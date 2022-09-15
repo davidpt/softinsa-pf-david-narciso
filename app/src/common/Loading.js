@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import React from "react";
 
-function NotFound() {
+function Loading() {
   return (
     <Container
       sx={{
@@ -11,12 +11,11 @@ function NotFound() {
         minHeight: "70vh",
       }}
     >
-      <Typography sx={{ pt: "20vh" }} variant="h1">
-        404
+      <Typography sx={{ pt: "20vh" }} variant="h2" component="h1">
+        A carregar
       </Typography>
-      <Typography variant="h2">Página não encontrada!</Typography>
     </Container>
   );
 }
 
-export default NotFound;
+export default Loading;

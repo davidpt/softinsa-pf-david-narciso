@@ -36,7 +36,7 @@ function App() {
   let theme = createTheme({
     palette: {
       background: {
-        default: darkMode === true ? "#0a1929" : "white",
+        default: darkMode === true ? "#0a1929" : "#f2f4f5",
       },
       mode: darkMode === true ? "dark" : "light",
     },
@@ -77,7 +77,7 @@ function App() {
               <Route path="/anuncio/adicionar" element={<Editar />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-            <Footer />
+            <Footer darkmode={darkMode} />
           </SnackbarProvider>
         </BrowserRouter>
       </ThemeProvider>

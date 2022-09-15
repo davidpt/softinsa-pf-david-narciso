@@ -95,7 +95,7 @@ export default function AddPhoto(props) {
             <Grid
               sx={{
                 padding: 1,
-                height: "350px",
+                maxHeight: "350px",
                 mb: 6,
               }}
               textAlign="center"

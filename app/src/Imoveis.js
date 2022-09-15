@@ -8,6 +8,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useTheme } from "@mui/material";
+import Loading from "./common/Loading";
 
 export default function Imoveis() {
   const [imoveis, setImoveis] = useState([]);
@@ -16,6 +18,7 @@ export default function Imoveis() {
   const { enqueueSnackbar } = useSnackbar();
   const [openModal, setOpenModal] = React.useState(false);
   const [imoID, setImoID] = React.useState();
+  const theme = useTheme();
 
   const handleOpenModalDelete = (id) => {
     setImoID(id);
@@ -71,16 +74,9 @@ export default function Imoveis() {
     });
   };
 
-  // function getImoveisUsados() {
-  //   searchParams.set("estado", "usado");
-  //   setSearchParams(searchParams);
-  // }
-
   if (loading) {
     return (
-      <div className="App-header">
-        <p>Loading...</p>
-      </div>
+      <Loading />
     );
   }
 
@@ -88,85 +84,95 @@ export default function Imoveis() {
     <React.Fragment>
       <Container maxWidth="lg" sx={{ pt: 1, pb: 5 }}>
         {/* Variant é o estilo aplicado, h1 é o que aparece html */}
-        <Typography variant="h3" component="h1">
-          Lista de Apartamentos
+        <Typography sx={{ my: 3 }} variant="h4" component="h1">
+          Lista de imóveis
         </Typography>
         {imoveis.map((imovel) => (
-          <Grid key={imovel.id}>
-            <Typography>{imovel.titulo}</Typography>
-            <Typography>
-              {imovel.tipo}, {imovel.tipologia}
-            </Typography>
-            <Typography>Estado: {imovel.estado}</Typography>
-            <Typography>Descrição: {imovel.descricao}</Typography>
-            {imovel.imagens ? (
+          <Grid
+            container
+            key={imovel.id}
+            sx={{
+              backgroundColor:
+                theme.palette.mode === "light" ? "white" : "#35363a",
+              mb: 3,
+            }}
+          >
+            <Grid item xs={12} sm={5} md={4} lg={3} sx={{ padding: 1 }}>
+              {imovel.imagens[0] ? (
+                <Photo id={imovel.imagens[0]} />
+              ) : (
+                <img
+                  draggable="false"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                  alt="no-img"
+                  src="/no-image.jpg"
+                />
+              )}
+            </Grid>
+            <Grid item xs={12} sm={7} md={8} lg={9} sx={{ padding: 1 }}>
               <Grid container>
-                <Grid xs={12} item>
-                  <Typography variant="body1">Imagens:</Typography>
-                </Grid>
-                {imovel.imagens.map((_id) => (
-                  <Grid
-                    sx={{ padding: 2 }}
-                    style={{ maxHeight: "20vh" }}
-                    textAlign="center"
-                    xs={6}
-                    lg={4}
-                    key={_id}
-                    item
+                <Grid item xs={8} md={10}>
+                  <Typography gutterBottom variant="h6">
+                    {imovel.titulo}
+                  </Typography>
+                  <Typography gutterBottom>
+                    {imovel.tipo}, {imovel.tipologia}
+                  </Typography>
+                  <Typography gutterBottom variant="body1">
+                    {imovel.estado}
+                  </Typography>
+                  <Typography>Ano: {imovel.ano}</Typography>
+                  <Stack
+                    sx={{ py: 2 }}
+                    direction="row"
+                    alignItems="center"
+                    spacing={2}
                   >
-                    <Photo id={_id} />
-                  </Grid>
-                ))}
+                    <Button
+                      component={Link}
+                      to={"/anuncio/" + imovel.id}
+                      variant="contained"
+                    >
+                      abrir
+                    </Button>
+                    <Button
+                      component={Link}
+                      to={"/anuncio/editar/" + imovel.id}
+                      variant="contained"
+                    >
+                      editar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleOpenModalDelete(imovel.id)}
+                    >
+                      apagar
+                    </Button>
+                  </Stack>
+                </Grid>
+                <Grid item xs={4} md={2}>
+                  <Typography variant="h6" sx={{ textAlign: "right" }}>
+                    {imovel.preco} €
+                  </Typography>
+                </Grid>
               </Grid>
-            ) : (
-              <Typography variant="body1">
-                Este imóvel não tem imagens
-              </Typography>
-            )}
-            <Typography>Ano: {imovel.ano}</Typography>
-            <Typography>Preço: {imovel.preco} €</Typography>
-            <Stack
-              sx={{ py: 2 }}
-              direction="row"
-              alignItems="center"
-              spacing={2}
-            >
-              <Button
-                component={Link}
-                to={"/anuncio/" + imovel.id}
-                variant="contained"
-                color="primary"
-              >
-                ABRIR ANUNCIO
-              </Button>
-              <Button
-                component={Link}
-                to={"/anuncio/editar/" + imovel.id}
-                variant="contained"
-                color="primary"
-              >
-                EDITAR ANUNCIO
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => handleOpenModalDelete(imovel.id)}
-              >
-                APAGAR ANUNCIO
-              </Button>
-            </Stack>
+            </Grid>
           </Grid>
         ))}
-        {/* <Button variant="contained" onClick={() => getImoveisUsados()}>
-        IMOVEIS USADOS
-      </Button> */}
-        <Button
-          component={Link}
-          to="/anuncio/adicionar"
-          variant="contained"
-          color="primary"
-        >
-          ADICIONAR NOVO ANUNCIO
-        </Button>
+        <Stack direction="column" sx={{ mt: 7, mb: 2 }}>
+          <Button
+            component={Link}
+            to="/anuncio/adicionar"
+            variant="contained"
+            color="primary"
+          >
+            adicionar imóvel
+          </Button>
+        </Stack>
       </Container>
       <Dialog
         open={openModal}

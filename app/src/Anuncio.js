@@ -5,12 +5,15 @@ import Photo from "./common/Photo";
 import { Container, Grid, Typography } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import { Box } from "@mui/system";
+import { useTheme } from "@mui/material";
+import Loading from "./common/Loading";
 
-export default function SectionIntro() {
+export default function Anuncio() {
   const params = useParams();
   const [imovel, setImovel] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const theme = useTheme();
 
   useEffect(() => {
     let queryString = "/api/imovel/" + params.id;
@@ -38,7 +41,7 @@ export default function SectionIntro() {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (error) {
@@ -47,61 +50,76 @@ export default function SectionIntro() {
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h3" component="h1" sx={{ my: 3 }}>
-        {imovel.titulo}
-      </Typography>
-      <Grid container>
-        <Grid item xs={12} md={4} sx={{ margin: "auto" }}>
-          <Typography variant="h4" component="h2">
+      <Grid container sx={{ mt: 7, pb: 5 }}>
+        <Grid
+          item
+          xs={12}
+          sm={5}
+          sx={{
+            pl: 3,
+            pr: 3,
+            pb: 3,
+            backgroundColor:
+              theme.palette.mode === "light" ? "white" : "#35363a",
+          }}
+        >
+          <Typography variant="h4" component="h1" sx={{ mt: 2, mb: 3 }}>
+            {imovel.titulo}
+          </Typography>
+          <Typography variant="h5" component="h2">
             Tipo de imóvel
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
             {imovel.tipo}
           </Typography>
-          <Typography variant="h4" component="h2">
+          <Typography variant="h5" component="h2">
             Tipologia
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
             {imovel.tipologia}
           </Typography>
-          <Typography variant="h4" component="h2">
+          <Typography variant="h5" component="h2">
             Distrito
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
             {imovel.distrito}
           </Typography>
-          <Typography variant="h4" component="h2">
+          <Typography variant="h5" component="h2">
             Estado
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
             {imovel.estado}
           </Typography>
-          <Typography variant="h4" component="h2">
-            ID do imóvel
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 3 }}>
-            {params.id}
-          </Typography>
         </Grid>
-        <Grid item xs={12} md={8} sx={{ pb: 5 }}>
+        <Grid item xs={12} sm={7}>
           {imovel.imagens ? (
             <Carousel swipe={true} autoPlay={false}>
               {imovel.imagens.map((_id) => (
                 <Box
                   key={_id}
-                  sx={{ padding: 2, height: "600px", maxHeight: "600px" }}
+                  sx={{
+                    height: "600px",
+                    maxHeight: "600px",
+                  }}
                 >
-                  <Photo id={_id} />
+                  <Photo contain={true} id={_id} />
                 </Box>
               ))}
             </Carousel>
           ) : (
-            <Typography variant="body1">Este imóvel não tem imagens</Typography>
+            <Photo id={"000"} />
           )}
         </Grid>
       </Grid>
-      <Typography variant="h4">Descrição</Typography>
-      <Typography variant="body1">{imovel.descricao}</Typography>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        Descrição
+      </Typography>
+      <Typography variant="body1" sx={{ fontSize: 18, whiteSpace:"pre-line" }}>
+        {imovel.descricao}
+      </Typography>
+      <Typography variant="body1" sx={{ mt: 4, mb: 6, fontStyle: "italic" }}>
+        ID do imóvel: {params.id}
+      </Typography>
     </Container>
   );
 }
