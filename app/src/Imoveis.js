@@ -134,14 +134,14 @@ export default function Imoveis() {
                   >
                     <Button
                       component={Link}
-                      to={"/anuncio/" + imovel.id}
+                      to={"/imovel/" + imovel.id}
                       variant="contained"
                     >
                       abrir
                     </Button>
                     <Button
                       component={Link}
-                      to={"/anuncio/editar/" + imovel.id}
+                      to={"/imovel/editar/" + imovel.id}
                       variant="contained"
                     >
                       editar
@@ -166,7 +166,7 @@ export default function Imoveis() {
         <Stack direction="column" sx={{ mt: 7, mb: 2 }}>
           <Button
             component={Link}
-            to="/anuncio/adicionar"
+            to="/imovel/adicionar"
             variant="contained"
             color="primary"
           >

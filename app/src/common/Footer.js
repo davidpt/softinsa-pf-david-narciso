@@ -15,7 +15,7 @@ export default function Footer(props) {
     >
       <Container maxWidth="lg" sx={{ pt: 10, pb: 15, textAlign: "center" }}>
         <Stack>
-          <Typography variant="body1" sx={{ fontSize: 20 }}>Imo Soft, a sua imobiliária de confiança.</Typography>
+          <Typography variant="body1" sx={{ fontSize: 20 }}>Imo Soft, uma plataforma de confiança.</Typography>
         </Stack>
         <Grid
           sx={{

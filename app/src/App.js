@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Imoveis from "./Imoveis";
-import Anuncio from "./Anuncio";
+import Anuncio from "./Imovel";
 import Editar from "./editar/Editar";
 import NotFound from "./common/NotFound";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -72,9 +72,9 @@ function App() {
               <Route exact path="/" element={<Homepage />} />
               <Route path="/foto/:id" element={<FindPhoto />} />
               <Route path="/imoveis" element={<Imoveis />} />
-              <Route path="/anuncio/:id" element={<Anuncio />} />
-              <Route path="/anuncio/editar/:id" element={<Editar />} />
-              <Route path="/anuncio/adicionar" element={<Editar />} />
+              <Route path="/imovel/:id" element={<Anuncio />} />
+              <Route path="/imovel/editar/:id" element={<Editar />} />
+              <Route path="/imovel/adicionar" element={<Editar />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer darkmode={darkMode} />

@@ -12,7 +12,7 @@ export default function Homepage() {
         </Typography>
         <Typography variant="body1" sx={{ pb: 10 }}>
           Bem-vindo à plataforma de gestão de imóveis IMO SOFT. Esta plataforma
-          tem como objetivo permitir a um administrador gerir uma base de dados
+          tem como objetivo permitir a gestão de uma base de dados
           que contém informações sobre imóveis.
         </Typography>
         <Button
