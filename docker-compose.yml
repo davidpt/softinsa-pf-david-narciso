@@ -34,10 +34,10 @@ services:
     image: containerregistrysoftinsa.azurecr.io/spring-react-img  #name of the image after dockerfile executes
     container_name: spring-react-container  #name of the container created from docker image
     build:
-      context: softinsa-pf-david-narciso  #docker file path (. means root directory)
+      context: projeto-final              #docker file path (. means root directory)
       dockerfile: Dockerfile              #docker file name
     ports:
-      - "80:80"                       #docker containter port with your os port
+      - "80:80"                           #docker containter port with your os port
     restart: always
     depends_on:                           #define dependencies of this app
       - mongo                             #dependency name (which is defined with this name 'mongo' in this file earlier)
