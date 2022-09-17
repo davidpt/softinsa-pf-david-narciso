@@ -1,0 +1,43 @@
+# Creation of mongo DB and admin interface
+
+services:
+  mongo:
+    image: mongo:6.0.1
+    container_name: mongo-db
+    restart: always
+    # volumes:
+    #   - /var/lib/docker/volumes/vol-mongo-db/_data:/data/db/ #volumes utilizados pelo mongoDB. O host tem de ter estes dois volumes para que os dados sejam importados
+    #   - /var/lib/docker/volumes/vol-mongo-configdb/_data:/data/configdb/ #caso os volumes não existam o docker trata de os criar. No entanto, nesse caso a BD fica vazia!
+    #ports:
+    #  - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 9xDyE3FUcAngkz
+
+  mongo-express:
+    image: mongo-express:1.0.0-alpha
+    container_name: mongo-admin-interface
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 9xDyE3FUcAngkz
+      ME_CONFIG_MONGODB_SERVER: mongo-db
+      ME_CONFIG_BASICAUTH_USERNAME: user
+      ME_CONFIG_BASICAUTH_PASSWORD: 123456
+
+  #service 3: definition of your spring-boot app
+  customerservice:                        #it is just a name, which will be used only in this file.
+    image: containerregistrysoftinsa.azurecr.io/spring-react-img  #name of the image after dockerfile executes
+    container_name: spring-react-container  #name of the container created from docker image
+    build:
+      context: softinsa-pf-david-narciso  #docker file path (. means root directory)
+      dockerfile: Dockerfile              #docker file name
+    ports:
+      - "80:80"                       #docker containter port with your os port
+    restart: always
+    depends_on:                           #define dependencies of this app
+      - mongo                             #dependency name (which is defined with this name 'mongo' in this file earlier)
